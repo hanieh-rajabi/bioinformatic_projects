@@ -1,0 +1,4 @@
+variant_id,gene,transcript,position,ref,alt
+rs55863639,TP53,NM_000546.6,375,G,A
+rs1042522,TP53,NM_000546.6,215,C,G
+rs1555526097,TP53,NM_000546.6,499,C,T

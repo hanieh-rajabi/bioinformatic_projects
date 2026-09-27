@@ -1,0 +1,4 @@
+variant_id,position,reference,alternate,reference_codon,alternate_codon,reference_aa,alternate_aa,consequence
+rs1042522,215,C,G,CCC,CGC,P,R,missense
+rs55863639,375,G,A,ACG,ACA,T,T,synonymous
+rs1555526097,499,C,T,CAG,TAG,Q,*,nonsense
