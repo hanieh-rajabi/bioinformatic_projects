@@ -1,146 +1,51 @@
 # SNP Function Analyzer
 
-A small Python-based bioinformatics project for analyzing the coding consequences of single-nucleotide variants (SNPs) in a coding DNA sequence. (CDS)
+Takes a single-nucleotide variant in a coding sequence and works out what it does to the protein: which codon changes, which amino acid it becomes, and whether the change is synonymous, missense or nonsense.
 
-The project uses the human **TP53** transcript **NM_000546.6** as a real biological example and determines how selected nucleotide substitutions affect codons and amino acids.
+I used the human **TP53** coding sequence (transcript NM_000546.6) because it's one of the most studied cancer genes and there are plenty of well-documented variants to test against.
 
-## Project Overview
-
-The goal of this project is to connect a nucleotide-level variant with its basic protein-level consequence.
-
-The pipeline follows:
+## How it works
 
 ```text
-TP53 CDS
-   ↓
-SNP Input
-   ↓
-SNP Validation
-   ↓
-Reference → Alternate Sequence
-   ↓
-Affected Codon
-   ↓
-Codon Translation
-   ↓
-Amino-acid Change
-   ↓
-Consequence Classification
-   ↓
-CSV Results
+TP53 CDS (FASTA)
+  → check the reference base matches the sequence
+  → apply the substitution
+  → find the affected codon (reference and alternate)
+  → translate both with the standard genetic code
+  → classify: synonymous / missense / nonsense
+  → save to CSV
 ```
 
-The analyzer currently classifies coding variants into:
+Positions are 1-based CDS coordinates, the same as the `c.` numbering in HGVS (so `c.215C>G` means position 215, C to G).
 
-* **Synonymous** — the amino acid does not change
-* **Missense** — the amino acid changes
-* **Nonsense** — the variant introduces a stop codon
+## Example variants
 
+| Variant | HGVS | Codon | Amino acid | Result |
+|---|---|---|---|---|
+| rs1042522 | c.215C>G | CCC → CGC | P → R (Pro72Arg) | missense |
+| rs55863639 | c.375G>A | ACG → ACA | T → T (Thr125=) | synonymous |
+| rs1555526097 | c.499C>T | CAG → TAG | Q → * (Gln167Ter) | nonsense |
 
+rs1042522 is the well-known P72R polymorphism. The c.375G>A variant is a nice example of where a codon-only view isn't enough. It is synonymous at the protein level, but it sits on the last base of exon 4 and has been reported to disrupt splicing.
 
-## Project Structure
+## How to run
 
-```text
-snp_function_analyzer/
-│
-├── data/
-│   ├── TP53_CDS.fasta
-│   └── variants.csv
-│
-├── results/
-│   └── snp_results.csv
-│
-├── scripts/
-│   ├── check_cds.py
-│   └── download_TP53.py
-│
-├── snp_analyzer/
-│   ├── __init__.py
-│   ├── analyzer.py
-│   ├── codon.py
-│   ├── consequence.py
-│   └── sequence.py
-│
-├
-│
-├── main.py
-├── README.md
-├── requirements.txt
-└── .gitignore
+```bash
+pip install -r requirements.txt
+
+python scripts/download_TP53.py   
+python scripts/check_cds.py       
+python main.py                    
 ```
 
-## Main functions
+Run everything from inside `snp_function_analyzer/`. The CDS is already in `data/`, so the download step is only needed to refresh it. If you do run it, change `Entrez.email` in the script to your own email, because NCBI asks for one.
 
-### `sequence.py`
-
-Handles SNP validation and applies the nucleotide substitution to the sequence.
-
-### `codon.py`
-
-Identifies the codon affected by the SNP and translates codons using the standard genetic code provided by Biopython.
-
-### `consequence.py`
-
-Compares the reference and alternate amino acids and classifies the variant as synonymous, missense, or nonsense.
-
-### `analyzer.py`
-
-Combines the individual analysis steps into a single SNP analysis function.
-
-### `main.py`
-
-Loads the TP53 CDS, analyzes the selected variants, and saves the results to a CSV file.
-
-## Data
-
-The project uses the coding sequence (CDS) of human **TP53 transcript NM_000546.6**.
-
-The CDS was retrieved from NCBI and saved as:
-
-```text
-data/TP53_CDS.fasta
-```
-
-Three real TP53 variants are included for analysis:
-
-| Variant      | Position | Reference | Alternate |
-| ------------ | -------: | --------- | --------- |
-| rs1042522    |      215 | C         | G         |
-| rs55863639   |      375 | G         | A         |
-| rs1555526097 |      499 | C         | T         |
-
-The variant identifiers and nucleotide changes are stored in:
-
-```text
-data/variants.csv
-```
-
-
-
-
-## Technologies
-
-* Python
-* Biopython
-* pandas
-* NCBI sequence data
-* Basic molecular genetics
-* Codon translation
-* Variant consequence analysis
 
 
 ## Limitations
 
-
-
-The current implementation focuses on basic coding consequences and does not perform:
-
-* population frequency analysis
-* clinical interpretation
-* pathogenicity prediction
-* splice-site analysis
-* regulatory variant analysis
-* genome-wide variant annotation
-* transcript selection across multiple genes
+- Only single-base substitutions inside the CDS. Indels, UTR, intronic and splice-site variants aren't handled.
+- The variants are currently written directly in `main.py`. `data/variants.csv` has the same three variants but isn't read yet.
+- Stop-lost changes (a stop codon turning into an amino acid) are labelled as missense.
 
 
