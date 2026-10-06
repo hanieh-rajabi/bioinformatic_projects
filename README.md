@@ -1,0 +1,1 @@
+Small Python projects I wrote during my bachelor's in bioinformatics. Each one started as a way to understand a topic from class by actually coding it instead of only reading about it. They're intentionally small and written mostly from scratch, so the logic is easy to follow.
