@@ -51,7 +51,7 @@ python -m pytest tests/test.py
 ## Results
 
 <p align="center">
-  <img src="results/figures/gc_content.png" width="700" height="500">
+  <img src="results/figures/gc_content.png" width="500" height="400">
 </p>
 
 
