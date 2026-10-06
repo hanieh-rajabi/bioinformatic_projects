@@ -70,6 +70,4 @@ mini_dna_toolkit/
 - Search all three forward frames and the three reverse-complement frames, and return every ORF above a minimum length instead of just the first one.
 - Add FASTA reading so the functions can run on real files, not only strings.
 - Allow `N` and other IUPAC codes in validation, with an option to keep or drop them.
-- Add a `pyproject.toml` so the package can be installed with `pip install -e .`. That would also fix the import issue with plain `pytest` and the example script.
-- Compare results against Biopython (`Seq.reverse_complement()`, `Seq.translate()`) in the tests as a sanity check.
-- Add a small CLI, for example `python -m dna_toolkit gc sequence.fasta`.
+- Compare results against Biopython (`Seq.reverse_complement()`, `Seq.translate()`)
