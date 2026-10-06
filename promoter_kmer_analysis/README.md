@@ -50,11 +50,16 @@ python -m pytest tests/test.py
 
 ## Results
 
-![GC content](results/figures/gc_content.png)
+<p align="center">
+  <img src="results/figures/gc_content.png" width="700" height="500">
+</p>
+
 
 For short k-mers the result is easy to read. The top 2-mers are AA (about 1.8× more frequent in promoters) and TA (about 1.6×). That fits with promoters being AT-rich and with the TATAAT-like −10 box in bacterial promoters.
 
-![Top 2-mers](results/figures/top_enriched_kmers_k2.png)
+<p align="center">
+  <img src="results/figures/top_enriched_kmers_k2.png" width="700" height="500">
+</p>
 
 
 
